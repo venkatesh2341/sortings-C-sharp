@@ -1,0 +1,165 @@
+using System;
+namespace HelloWorld
+{
+    public class Hello
+    {
+        
+        public static void print(int [] arr)
+        {
+            foreach(var ele in arr)
+            {
+                Console.Write(ele + " ");
+            }
+        }
+		public static void swap(int[] arr, int i, int j)
+		{
+			int temp= arr[i];
+			arr[i] = arr[j] ;
+			arr[j] = temp;
+		}
+		public static void bubbleSort(int[] arr , int n)
+		{
+			for(int i=n-1;i>=1;i--)
+            {
+                for(int j=0;j<i;j++)
+                {
+                    if(arr[j] > arr[j+1])
+                    {
+                        swap(arr, j, j+1);
+                    }
+                }
+            }
+		}
+		
+		public static void selectionSort(int[] arr, int n)
+		{
+			for(int i=0;i<n-1;i++)
+			{
+				int mn = i;
+				for(int j=i+1;j<n;j++)
+				{
+					if( arr[mn] > arr[j])
+					{
+						mn= j;
+					}
+				}
+				swap(arr, i, mn);	
+			}
+			
+		}
+		
+		public static void insertionSort(int[] arr , int n)
+		{
+			for(int i=1;i<n;i++)
+			{
+				int key= arr[i];
+				int j= i-1;
+				while( j>=0 && arr[j] > key)
+				{
+					arr[j+1] = arr[j] ;
+					j--;
+				}
+				arr[j+1] = key;
+			}
+			
+		}
+		
+		public static void shellSort(int[] arr, int n)
+		{
+			int gap= 1;
+			for(; gap< n/3 ; gap = gap*3+1);
+			
+			while(gap >0)
+			{
+				for(int i=gap;i<n;i++)
+				{
+					for(int j=i; ( j-gap>=0  && arr[j] < arr[j-gap] ) ; j= j-gap)
+					{
+						swap(arr, j, j-gap);
+					}
+				}
+				gap/=3;
+			}
+		}
+		
+		
+		public static void merge( int[] arr, int start, int mid, int end)
+		{
+			int i=start, j= mid+1, k=0;
+			int[] temp= new int[end-start+1];
+			while(i<=mid && j<= end)
+			{
+				if( arr[i] > arr[j])
+					temp[k++] = arr[j++];
+				else temp[k++] = arr[i++];
+			}
+			while(i<=mid) temp[k++]= arr[i++];
+			while(j<=end) temp[k++]= arr[j++];
+			k=start;
+			for(int z=0;z< temp.Length ;z++)
+			{
+				arr[k++]= temp[z];
+			}
+			
+		}
+		public static void mergeSort( int[] arr, int start, int end)
+		{
+			if(start >=end) return ;
+			int mid = start+ (end- start)/2;
+			mergeSort(arr, start , mid);
+			mergeSort(arr, mid+1 , end);
+			merge(arr, start, mid, end);
+		}
+		
+		public static int partition(int[] arr, int start, int end)
+		{
+			int key= arr[end] ;
+			int i=start, j=start;
+			while(j< end)
+			{
+				if( arr[j] < key)
+				{
+					swap(arr, i++, j);
+				}
+				j++;
+			}
+			swap(arr, i, end);
+			return i;
+			
+		}
+
+		
+		public static void quickSort(int[] arr, int start, int end )
+		{
+			if(start >= end) return ;
+			int pivot= partition(arr, start, end);
+			quickSort(arr, start, pivot-1);
+			quickSort(arr, pivot+1, end);
+		}
+		
+        public static void Main()
+        {
+            int n= Convert.ToInt32(Console.ReadLine());
+            string[] s= Console.ReadLine().Split();
+            int[] arr= new int[n];
+            int ind=0;
+            foreach( var num in s)
+            {
+                arr[ind++]= Convert.ToInt32(num);    
+                // Console.WriteLine(num);
+            }
+            
+            print(arr);
+            Console.WriteLine();
+			//bubbleSort(arr, n);
+			//selectionSort(arr,n);
+			//insertionSort(arr,n);
+			//shellSort(arr, n);
+			//mergeSort(arr, 0, n-1);
+		    //quickSort(arr, 0, n-1);
+			
+            print(arr);
+            
+		}
+    }
+}
